@@ -1,19 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}BlaBlaArticle - Лучший генератор статей{% endblock %}</title>
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
-
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body{% block content_class %}{% endblock %}>
+        {% block header %}{% endblock %}
         {% block body %}{% endblock %}
+        {% block footer %}
+            <footer class="footer bg-light">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                            <p class="text-muted small mb-4 mb-lg-0">&copy; BlaBlaArticle {{ "now"|date("Y") }}.</p>
+                        </div>
+                        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item mr-3">
+                                    <a href="#"><i class="fab fa-facebook fa-2x fa-fw"></i></a>
+                                </li>
+                                <li class="list-inline-item mr-3">
+                                    <a href="#"><i class="fab fa-vk fa-2x fa-fw"></i></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#"><i class="fab fa-instagram fa-2x fa-fw"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 </html>
