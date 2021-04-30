@@ -6,7 +6,7 @@
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
             <span class="navbar-brand">BlaBlaArticle</span>
-            <a class="btn btn-primary" href="login.html">Войти</a>
+            <a class="btn btn-primary" href="{{ path('app_login') }}">Войти</a>
         </div>
     </nav>
 {% endblock %}
@@ -31,7 +31,7 @@
                     <h2 class="card-title text-center mb-4">Создание статьи</h2>
 
                     <div class="alert alert-info" role="alert">
-                        Чтобы создать статью по настоящему <a href="register.html">Зарегистрируйтесь</a>
+                        Чтобы создать статью по настоящему <a href="{{ path('app_register') }}">Зарегистрируйтесь</a>
                     </div>
 
                     <form class="form-signin">
@@ -72,9 +72,8 @@
                                 <div class="media-body">
                                     <h2>Вставляйте изображения</h2>
                                     <p class="lead mb-0">Надоели стандартные красивые изображения. Прикрепляйте к вашим статьям свою уникальные фотографии. Смазанные, с пальцем на пол фотографии, с кривым лицом. Все пойдет - вы здесь главный!</p>
-                                    <p class="lead mb-0">Надоели стандартные красивые изображения. Прикрепляйте к вашим статьям свою уникальные фотографии. Смазанные, с пальцем на пол фотографии, с кривым лицом. Все пойдет - вы здесь главный!</p>
                                 </div>
-                                <img class="ml-3" src="img/bg-showcase-2.jpg" width="518" height="345" alt="">
+                                <img class="ml-3" src="{{ asset('/img/bg-showcase-2.jpg') }}" width="518" height="345" alt="">
                             </div>
 
                         </div>
@@ -89,8 +88,6 @@
             </div>
         </div>
     </section>
-
-
     <section class="call-to-action text-white text-center">
         <div class="overlay"></div>
         <div class="container">
@@ -98,14 +95,9 @@
                 <div class="col-xl-9 mx-auto">
                     <h2 class="mb-4">Готовы начать? Регистрируйтесь прямо сейчас!</h2>
                 </div>
-                <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                    <div class="form-row">
-                        <div class="col-12 col-md-6 mx-auto">
-                            <a href="register.html" class="btn btn-block btn-lg btn-primary">Регистрация</a>
-                        </div>
-                    </div>
-                </div>
+                {% include 'partial/registr.html.twig' %}
             </div>
         </div>
     </section>
+    {% include 'partial/footer.html.twig' %}
 {% endblock %}
