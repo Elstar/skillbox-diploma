@@ -6,9 +6,9 @@
     <nav class="navbar navbar-light bg-light static-top">
         <div class="container">
             <span class="navbar-brand">BlaBlaArticle</span>
-            <a class="js-scroll-trigger" href="#services">Сервисы</a>
-            <a class="js-scroll-trigger" href="#author">Автор</a>
-            <a class="btn btn-primary" href="{{ path('app_login') }}">Войти</a>
+            <a class="js-scroll-trigger" href="#services">{% trans %}Сервисы{% endtrans %}</a>
+            <a class="js-scroll-trigger" href="#author">{% trans %}Автор{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{ path('app_login') }}">{% trans %}Войти{% endtrans %}</a>
         </div>
     </nav>
 {% endblock %}
@@ -24,7 +24,7 @@
                 <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
                     <div class="form-row">
                         <div class="col-12 col-md-6 mx-auto">
-                            <a type="submit" class="btn btn-block btn-lg btn-primary" href="{{ path('app_landing_try') }}">Попробовать</a>
+                            <a type="submit" class="btn btn-block btn-lg btn-primary" href="{{ path('app_landing_try') }}">{% trans %}Попробовать{% endtrans %}</a>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
         <div class="container-fluid p-0">
             <div class="row no-gutters">
 
-                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-1.jpg');"></div>
+                <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('{{ asset('/img/bg-showcase-1.jpg') }}');"></div>
                 <div class="col-lg-6 order-lg-1 my-auto showcase-text">
                     <h2>Добавляйте свои слова</h2>
                     <p class="lead mb-0">При генерации контента статьи, вы можете наполнить его нужными словами для вашего бизнеса. Столько сколько нужно. Хоть все ими заполоните!</p>
