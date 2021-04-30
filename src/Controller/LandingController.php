@@ -9,7 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class LandingController extends AbstractController
 {
     /**
-     * @Route("/", name="app_landing_home")
+     * @Route(
+     *     "/{_locale}",
+     *     name="app_landing_home",
+     *     requirements={
+     *         "_locale": "ru|en",
+     *     }
+     * )
      */
     public function index(): Response
     {
