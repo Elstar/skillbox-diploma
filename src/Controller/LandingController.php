@@ -13,7 +13,10 @@ class LandingController extends AbstractController
      *     "/{_locale}",
      *     name="app_landing_home",
      *     requirements={
-     *         "_locale": "ru|en",
+     *         "_locale": "en"
+     *     },
+     *     defaults={
+     *         "_locale": "ru"
      *     }
      * )
      */
