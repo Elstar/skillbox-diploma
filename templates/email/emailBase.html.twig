@@ -1,0 +1,26 @@
+{% apply inline_css(source('@css/email/email.css')) %}
+    <!doctype html>
+    <html lang="ru">
+        <head>
+
+            <meta name="viewport" content="width=device-width" />
+
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <title>{{ email.subject}}</title>
+
+        </head>
+    <body>
+        {% block header %}{% endblock %}
+        <table class="body-wrap">
+            <tr>
+                <td></td>
+                <td class="container">
+                    {% block content %}{% endblock %}
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        {% block footer %}{% endblock %}
+    </body>
+    </html>
+{% endapply %}
