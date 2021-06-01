@@ -18,8 +18,6 @@ class PersonalAreaController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('personal_area/index.html.twig', [
-            'controller_name' => 'PersonalAreaController',
-        ]);
+        return $this->render('personal_area/index.html.twig');
     }
 }

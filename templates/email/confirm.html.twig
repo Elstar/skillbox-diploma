@@ -1,4 +1,4 @@
-{% extends 'email/baseEmail.html.twig' %}
+{% extends 'email/emailBase.html.twig' %}
 {% block header %}
     <table class="head-wrap">
         <tr>
@@ -9,7 +9,7 @@
                     <table>
                         <tr>
                             <td><h6 class="collapse">Добро пожаловать</h6></td>
-                            <td align="right"><a class="collapse" href="{{ url('app_homepage') }}">Bla Bla Article</a></td>
+                            <td align="right"><a class="collapse" href="{{ url('app_landing_home') }}">Bla Bla Article</a></td>
                         </tr>
                     </table>
                 </div>
@@ -28,7 +28,7 @@
                 <td>
                     <h1>Добро пожаловать, {{ email.toName }}!</h1>
                     <p class="lead">Перейдите по ссылке чтобы подтвердить ваш E-mail</p>
-                    <a class="btn" href="{{ url('app_email_confirm', {email_confirm: user.email_confirm}) }}">Подтвердить</a>
+                    <a class="btn" href="{{ url('app_email_confirm', {email_confirm_hash: user.getEmailConfirmHash}) }}">Подтвердить</a>
                 </td>
             </tr>
         </table>

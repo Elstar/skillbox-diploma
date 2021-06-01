@@ -39,6 +39,9 @@ class Mailer
         );
     }
 
+    /**
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
     private function send(string $template, string $subject, User $user, \Closure $callback = null)
     {
         $email = (new TemplatedEmail())
@@ -50,5 +53,6 @@ class Mailer
         if ($callback) {
             $callback($email);
         }
+        $this->mailer->send($email);
     }
 }

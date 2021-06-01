@@ -81,14 +81,13 @@ class SecurityController extends AbstractController
 
         return $this->render('security/register.html.twig', [
             'error' => $error,
-            'formErrors' => $form->getErrors(true),
             'success' => false,
             'registrationForm' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/confirm/{email_confirm}", name="app_email_confirm")
+     * @Route("/confirm/{email_confirm_hash}", name="app_email_confirm")
      * @param User $user
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -104,9 +103,11 @@ class SecurityController extends AbstractController
         LoginFormAuthenticator $authenticator
     ): Response {
         if (!is_null($user)) {
-            $user->setEmailConfirm(1);
-            $em->persist($user);
-            $em->flush();
+            if (!$user->getEmailConfirm()) {
+                $user->setEmailConfirm(1);
+                $em->persist($user);
+                $em->flush();
+            }
 
             return $guard->authenticateUserAndHandleSuccess(
                 $user,
@@ -115,6 +116,7 @@ class SecurityController extends AbstractController
                 'main'
             );
         }
+        return $this->render('security/confirm.html.twig');
     }
 
     /**
