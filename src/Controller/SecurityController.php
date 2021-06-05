@@ -87,7 +87,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/confirm/{email_confirm_hash}", name="app_email_confirm")
+     * @Route("/confirm/{emailConfirmHash}", name="app_email_confirm")
      * @param User $user
      * @param Request $request
      * @param EntityManagerInterface $em

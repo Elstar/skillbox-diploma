@@ -28,7 +28,7 @@
                 <td>
                     <h1>Добро пожаловать, {{ email.toName }}!</h1>
                     <p class="lead">Перейдите по ссылке чтобы подтвердить ваш E-mail</p>
-                    <a class="btn" href="{{ url('app_email_confirm', {email_confirm_hash: user.getEmailConfirmHash}) }}">Подтвердить</a>
+                    <a class="btn" href="{{ url('app_email_confirm', {emailConfirmHash: user.getEmailConfirmHash}) }}">Подтвердить</a>
                 </td>
             </tr>
         </table>
