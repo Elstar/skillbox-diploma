@@ -59,9 +59,15 @@ class User implements UserInterface
      */
     private $emailConfirmHash;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Subscribe::class, mappedBy="user")
+     */
+    private $subscribes;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
+        $this->subscribes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,8 +103,9 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+
         $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_FREE';
 
         return array_unique($roles);
     }
@@ -207,6 +214,36 @@ class User implements UserInterface
     public function setEmailConfirmHash(?string $emailConfirmHash): self
     {
         $this->emailConfirmHash = $emailConfirmHash;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscribe[]
+     */
+    public function getSubscribes(): Collection
+    {
+        return $this->subscribes;
+    }
+
+    public function addSubscribe(Subscribe $subscribe): self
+    {
+        if (!$this->subscribes->contains($subscribe)) {
+            $this->subscribes[] = $subscribe;
+            $subscribe->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscribe(Subscribe $subscribe): self
+    {
+        if ($this->subscribes->removeElement($subscribe)) {
+            // set the owning side to null (unless already changed)
+            if ($subscribe->getUser() === $this) {
+                $subscribe->setUser(null);
+            }
+        }
 
         return $this;
     }

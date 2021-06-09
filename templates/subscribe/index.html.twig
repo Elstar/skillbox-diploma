@@ -1,0 +1,91 @@
+{% extends 'auth_base.html.twig' %}
+
+{% block title %}
+    BlaBlaArticle - Подписка
+{% endblock %}
+
+{% block body %}
+    <h1 class="mt-4">Подписка</h1>
+    <div class="row">
+
+        <div class="col-xl-8">
+            <div class="alert alert-success" role="alert">
+                {% if activeSubscribe %}
+                    Подписка
+                    {% if activeSubscribe.role == 'ROLE_PLUS' %}
+                        Plus
+                    {% else %}
+                        Pro
+                    {% endif %}
+                        оформлена, до {{ activeSubscribe.dateTo }}
+                {% else %}
+                    Активна подписка Free
+                {% endif %}
+            </div>
+            <section class="pricing py-2 row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card mb-5 mb-lg-0">
+                                <div class="card-body">
+                                    <h5 class="card-title text-muted text-uppercase text-center">Free</h5>
+                                    <h6 class="card-price text-center">$0<span class="period">/неделя</span></h6>
+                                    <hr>
+                                    <ul class="fa-ul">
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Возможность создать не более 1 статьи</li>
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Базовые возможности генератора</li>
+                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Продвинутые возможности генератора</li>
+                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Свои модули</li>
+                                    </ul>
+                                    {% if not activeSubscribe %}
+                                        <a href="#" class="btn btn-block btn-secondary text-uppercase" disabled>Текущий уровень</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card mb-5 mb-lg-0">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-center current text-warning"><i class="fas fa-check"></i> Plus</h5>
+                                    <h6 class="card-price text-center">$9<span class="period">/неделя</span></h6>
+                                    <hr>
+                                    <ul class="fa-ul">
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Возможность создать не более 5 статей</li>
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Базовые возможности генератора</li>
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Продвинутые возможности генератора</li>
+                                        <li class="text-muted"><span class="fa-li"><i class="fas fa-times"></i></span>Свои модули</li>
+                                    </ul>
+                                    {% if activeSubscribe and activeSubscribe.role == 'ROLE_PLUS' %}
+                                        <a href="#" class="btn btn-block btn-secondary text-uppercase" disabled>Текущий уровень</a>
+                                    {% elseif not activeSubscribe%}
+                                        <a href="{{ path('app_personal_area_subscribe_change', { role: 'ROLE_PLUS'}) }}" class="btn btn-block btn-primary text-uppercase">Оформить</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title text-muted text-uppercase text-center">Pro</h5>
+                                    <h6 class="card-price text-center">$49<span class="period">/неделя</span></h6>
+                                    <hr>
+                                    <ul class="fa-ul">
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span><strong>Безлимитная генерация статей для вашего аккаунта</strong></li>
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Базовые возможности генератора</li>
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Продвинутые возможности генератора</li>
+                                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Свои модули</li>
+                                    </ul>
+                                    {% if activeSubscribe and activeSubscribe.role == 'ROLE_PRO' %}
+                                        <a href="#" class="btn btn-block btn-secondary text-uppercase" disabled>Текущий уровень</a>
+                                    {% elseif not activeSubscribe or activeSubscribe.role == 'ROLE_PLUS'%}
+                                        <a href="{{ path('app_personal_area_subscribe_change', { role: 'ROLE_PRO'}) }}" class="btn btn-block btn-primary text-uppercase">Оформить</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
