@@ -7,7 +7,6 @@
 {% block body %}
     <h1 class="mt-4">Подписка</h1>
     <div class="row">
-
         <div class="col-xl-8">
             <div class="alert alert-success" role="alert">
                 {% if activeSubscribe %}
@@ -17,7 +16,7 @@
                     {% else %}
                         Pro
                     {% endif %}
-                        оформлена, до {{ activeSubscribe.dateTo }}
+                        оформлена, до {{ activeSubscribe.dateTo|date("d.m.Y H:i") }}
                 {% else %}
                     Активна подписка Free
                 {% endif %}
