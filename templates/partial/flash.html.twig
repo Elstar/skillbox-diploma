@@ -1,7 +1,7 @@
 {% if app.session.flashBag.peek('flash_message')|length > 0 or  app.session.flashBag.peek('flash_message_error')|length > 0 %}
         <div class="row pt-1">
             <div class="col-xl-8">
-                {% if app.session.flashBag.peek('flash_message')|length > 0%}
+                {% if app.session.flashBag.peek('flash_message')|length > 0 %}
                     <div class="alert alert-success" role="alert">
                         {% for message in app.flashes('flash_message') %}
                             <div>{{ message }}</div>

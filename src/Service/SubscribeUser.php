@@ -4,14 +4,15 @@
 namespace App\Service;
 
 
-use App\Entity\Subscribe;
+use App\Entity\Subscription;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class SubscribeUser
 {
-    static $subscribes = ['ROLE_PLUS', 'ROLE_PRO'];
-    public $errorMessage;
+    static $subscriptions = ['ROLE_PLUS', 'ROLE_PRO'];
+    static $subscriptionNames = ['ROLE_FREE' => 'Free', 'ROLE_PLUS' => 'Plus', 'ROLE_PRO' => 'Pro'];
     /**
      * @var \DateTime
      */
@@ -30,67 +31,56 @@ class SubscribeUser
         $this->em = $em;
     }
 
-
-    /**
-     * @param string $newSubscribe
-     * @param $currentSubscribe Subscribe|array
-     * @return bool
-     */
-    public function checkSubscribe(string $newSubscribe, $currentSubscribe): bool
-    {
-        if (!in_array($newSubscribe, self::$subscribes)) {
-            $this->errorMessage = 'Wrong subscribe type';
-            return false;
-        }
-
-        if (!empty($currentSubscribe) && $currentSubscribe->getRole() == $newSubscribe) {
-            $this->errorMessage = 'Current subscribe is same';
-            return false;
-        } else {
-            if (!empty($currentSubscribe) && $currentSubscribe->getRole() == 'ROLE_PRO') {
-                $this->errorMessage = 'You cannot change PRO subscribe to PLUS';
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-    }
-
     /**
      * @param User $user
-     * @param $currentSubscribe Subscribe|array
-     * @param string $subscribeType
+     * @param $currentSubscription Subscription|array
+     * @param string $subscriptionType
      * @param $dateTo
      * @return bool
+     * @throws Exception
      */
     public function subscribe(
         User $user,
-        $currentSubscribe,
-        string $subscribeType,
+        $currentSubscription,
+        string $subscriptionType,
         $dateTo = null
     ): bool {
-        if (!in_array($subscribeType, self::$subscribes)) {
-            $this->errorMessage = 'Wrong subscribe type';
-            return false;
+        if (!in_array($subscriptionType, self::$subscriptions)) {
+            throw new Exception('Wrong subscription type');
         }
-        if (!empty($currentSubscribe)) {
-            $currentSubscribe->setDateTo(new \DateTime('now'));
-            $this->em->persist($currentSubscribe);
-            $this->em->flush();
+
+        if (!empty($currentSubscription) && $currentSubscription->getRole() == $subscriptionType) {
+            throw new Exception('Current subscription is same');
+        } else {
+            if (!empty($currentSubscription) && $currentSubscription->getRole() == 'ROLE_PRO') {
+                throw new Exception('You cannot change PRO subscription to PLUS');
+            } else {
+                if (is_null($dateTo) || ! $dateTo instanceof \DateTime) {
+                    $dateTo = $this->dateTo;
+                }
+                $newSubscription = new Subscription();
+                $newSubscription
+                    ->setUser($user)
+                    ->setRole($subscriptionType)
+                    ->setDateFrom(new \DateTime('now'))
+                    ->setDateTo($dateTo);
+                $this->em->persist($newSubscription);
+                $this->em->flush();
+                return true;
+            }
         }
-        if (is_null($dateTo) || ! $dateTo instanceof \DateTime) {
-            $dateTo = $this->dateTo;
-        }
-        $newSubscribe = new Subscribe();
-        $newSubscribe
-            ->setUser($user)
-            ->setRole($subscribeType)
-            ->setDateFrom(new \DateTime('now'))
-            ->setDateTo($dateTo);
-        $this->em->persist($newSubscribe);
-        $this->em->flush();
-        return true;
+        return false;
+    }
+
+    /**
+     * @param $subscription Subscription|array
+     * @return string
+     */
+    static function getSubscriptionName($subscription): string
+    {
+
+        $role = (!empty($subscription)) ? $subscription->getRole() : 'ROLE_FREE';
+        return self::$subscriptionNames[$role];
     }
 
 }

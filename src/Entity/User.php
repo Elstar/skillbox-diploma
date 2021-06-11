@@ -45,9 +45,9 @@ class User implements UserInterface
     private $firstName;
 
     /**
-     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user")
+     * @ORM\OneToOne(targetEntity=ApiToken::class, mappedBy="user")
      */
-    private $apiTokens;
+    private $apiToken;
 
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default": 0, "unsigned": true})
@@ -60,14 +60,14 @@ class User implements UserInterface
     private $emailConfirmHash;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscribe::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="user")
      */
-    private $subscribes;
+    private $subscription;
 
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
-        $this->subscribes = new ArrayCollection();
+        $this->subscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,34 +164,10 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|ApiToken[]
-     */
-    public function getApiTokens(): Collection
+
+    public function getApiToken(): ?ApiToken
     {
-        return $this->apiTokens;
-    }
-
-    public function addApiToken(ApiToken $apiToken): self
-    {
-        if (!$this->apiTokens->contains($apiToken)) {
-            $this->apiTokens[] = $apiToken;
-            $apiToken->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApiToken(ApiToken $apiToken): self
-    {
-        if ($this->apiTokens->removeElement($apiToken)) {
-            // set the owning side to null (unless already changed)
-            if ($apiToken->getUser() === $this) {
-                $apiToken->setUser(null);
-            }
-        }
-
-        return $this;
+        return $this->apiToken;
     }
 
     public function getEmailConfirm(): ?int
@@ -219,14 +195,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Subscribe[]
+     * @return Collection|Subscription[]
      */
     public function getSubscribes(): Collection
     {
         return $this->subscribes;
     }
 
-    public function addSubscribe(Subscribe $subscribe): self
+    public function addSubscribe(Subscription $subscribe): self
     {
         if (!$this->subscribes->contains($subscribe)) {
             $this->subscribes[] = $subscribe;
@@ -236,7 +212,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeSubscribe(Subscribe $subscribe): self
+    public function removeSubscribe(Subscription $subscribe): self
     {
         if ($this->subscribes->removeElement($subscribe)) {
             // set the owning side to null (unless already changed)

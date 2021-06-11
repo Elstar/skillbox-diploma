@@ -28,7 +28,7 @@ class ApiToken
     private $expiresAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="apiTokens")
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="apiToken")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

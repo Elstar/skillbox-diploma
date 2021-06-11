@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SubscribeRepository::class)
  */
-class Subscribe
+class Subscription
 {
     /**
      * @ORM\Id
@@ -18,7 +18,7 @@ class Subscribe
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subscribes")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="subscription")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

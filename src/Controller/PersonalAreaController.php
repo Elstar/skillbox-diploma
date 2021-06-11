@@ -38,14 +38,6 @@ class PersonalAreaController extends AbstractController
     }
 
     /**
-     * @Route("/personal/profile", name="app_personal_area_profile")
-     */
-    public function profile(): Response
-    {
-        return $this->render('personal_area/profile.html.twig');
-    }
-
-    /**
      * @Route("/personal/generator", name="app_personal_area_generator")
      */
     public function generator(): Response

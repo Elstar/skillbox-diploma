@@ -9,16 +9,11 @@
     <div class="row">
         <div class="col-xl-8">
             <div class="alert alert-success" role="alert">
+                Подписка {{ subscriptionName }}
                 {% if activeSubscribe %}
-                    Подписка
-                    {% if activeSubscribe.role == 'ROLE_PLUS' %}
-                        Plus
-                    {% else %}
-                        Pro
-                    {% endif %}
-                        оформлена, до {{ activeSubscribe.dateTo|date("d.m.Y H:i") }}
+                    оформлена, до {{ activeSubscribe.dateTo|date("d.m.Y H:i") }}
                 {% else %}
-                    Активна подписка Free
+                    активна без ограничения срока
                 {% endif %}
             </div>
             <section class="pricing py-2 row">

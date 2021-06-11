@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ApiToken;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,32 +20,13 @@ class ApiTokenRepository extends ServiceEntityRepository
         parent::__construct($registry, ApiToken::class);
     }
 
-    // /**
-    //  * @return ApiToken[] Returns an array of ApiToken objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getToken(User $user)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?ApiToken
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.user = :user_id')
+            ->setParameter('user_id', $user->getId())
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }
