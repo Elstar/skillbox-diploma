@@ -31,12 +31,12 @@
                     {{ form_label(editProfileForm.email) }}
                 </div>
                 <div class="form-label-group">
-                    {{ form_widget(editProfileForm.password.children['first']) }}
-                    {{ form_label(editProfileForm.password.children['first']) }}
+                    {{ form_widget(editProfileForm.plainPassword.children['first']) }}
+                    {{ form_label(editProfileForm.plainPassword.children['first']) }}
                 </div>
                 <div class="form-label-group">
-                    {{ form_widget(editProfileForm.password.children['second']) }}
-                    {{ form_label(editProfileForm.password.children['second']) }}
+                    {{ form_widget(editProfileForm.plainPassword.children['second']) }}
+                    {{ form_label(editProfileForm.plainPassword.children['second']) }}
                 </div>
                 <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">{% trans %}Edit{% endtrans %}</button>
             {{ form_end(editProfileForm) }}

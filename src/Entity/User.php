@@ -45,11 +45,6 @@ class User implements UserInterface
     private $firstName;
 
     /**
-     * @ORM\OneToOne(targetEntity=ApiToken::class, mappedBy="user")
-     */
-    private $apiToken;
-
-    /**
      * @ORM\Column(type="integer", nullable=false, options={"default": 0, "unsigned": true})
      */
     private $emailConfirm;
@@ -60,14 +55,12 @@ class User implements UserInterface
     private $emailConfirmHash;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscription::class, mappedBy="user")
+     * @ORM\OneToOne(targetEntity=ApiToken::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $subscription;
+    private $apiToken;
 
     public function __construct()
     {
-        $this->apiTokens = new ArrayCollection();
-        $this->subscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,12 +157,6 @@ class User implements UserInterface
         return $this;
     }
 
-
-    public function getApiToken(): ?ApiToken
-    {
-        return $this->apiToken;
-    }
-
     public function getEmailConfirm(): ?int
     {
         return $this->emailConfirm;
@@ -194,32 +181,19 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Subscription[]
-     */
-    public function getSubscribes(): Collection
+    public function getApiToken(): ?ApiToken
     {
-        return $this->subscribes;
+        return $this->apiToken;
     }
 
-    public function addSubscribe(Subscription $subscribe): self
+    public function setApiToken(ApiToken $apiToken): self
     {
-        if (!$this->subscribes->contains($subscribe)) {
-            $this->subscribes[] = $subscribe;
-            $subscribe->setUser($this);
+        // set the owning side of the relation if necessary
+        if ($apiToken->getUser() !== $this) {
+            $apiToken->setUser($this);
         }
 
-        return $this;
-    }
-
-    public function removeSubscribe(Subscription $subscribe): self
-    {
-        if ($this->subscribes->removeElement($subscribe)) {
-            // set the owning side to null (unless already changed)
-            if ($subscribe->getUser() === $this) {
-                $subscribe->setUser(null);
-            }
-        }
+        $this->apiToken = $apiToken;
 
         return $this;
     }

@@ -12,9 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfileController extends AbstractController
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * ProfileController constructor.
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+
     /**
      * @Route("/personal/profile", name="app_personal_area_profile")
      */
@@ -32,11 +47,9 @@ class ProfileController extends AbstractController
              * @var User $userModel
              */
             $userModel = $form->getData();
-
-            if (empty($userModel->getPassword())) {
-                $userModel->setPassword($user->getPassword());
-            } else {
-                $userModel->setPassword($passwordEncoder->encodePassword($userModel, $userModel->getPassword()));
+            $formData = $request->request->get('user_edit_form');
+            if (!empty($formData['plainPassword']['first'])) {
+                $userModel->setPassword($passwordEncoder->encodePassword($userModel, $formData['plainPassword']['first']));
             }
 
             $em->persist($userModel);
@@ -53,17 +66,20 @@ class ProfileController extends AbstractController
     /**
      * @Route("/personal/profile/getNewToken", name="app_personal_area_profile_get_new_token")
      */
-    public function newToken(ApiTokenRepository $tokenRepository, EntityManagerInterface $em)
+    public function getNewToken(ApiTokenRepository $tokenRepository, EntityManagerInterface $em)
     {
-        $token = $tokenRepository->getToken($this->getUser());
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $currentToken = $user->getApiToken();
+        $currentToken->setToken($user);
 
-        if (!empty($token)) {
-            $em->remove($token);
-            $em->flush();
-        }
-
-        $newToken = new ApiToken($this->getUser());
-        $em->persist($newToken);
+        $em->persist($currentToken);
         $em->flush();
+
+        $this->addFlash('flash_message', $this->translator->trans('New Token have generated'));
+
+        return $this->redirectToRoute('app_personal_area_profile');
     }
 }

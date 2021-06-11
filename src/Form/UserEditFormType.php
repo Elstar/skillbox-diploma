@@ -28,7 +28,8 @@ class UserEditFormType extends AbstractType
                 'required' => true,
                 'attr' => ['placeholder' => 'Your E-mail']
             ])
-            ->add('password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
+                'mapped' => false,
                 'required' => false,
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match',
