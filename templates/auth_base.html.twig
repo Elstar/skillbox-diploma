@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}BlaBlaArticle - Лучший генератор статей{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+    <div class="d-flex" id="wrapper">
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">BlaBlaArticle</div>
+            <div class="list-group list-group-flush">
+                <a href="{{ path('app_personal_area') }}" class="list-group-item list-group-item-action{% if app.request.get('_route') == 'app_personal_area' %} active{% else %} bg-light{% endif %}">Рабочий стол</a>
+                <a href="{{ path('app_personal_area_create') }}" class="list-group-item list-group-item-action{% if app.request.get('_route') == 'app_personal_area_create' %} active{% else %} bg-light{% endif %}">Создать статью</a>
+                <a href="{{ path('app_personal_area_history') }}" class="list-group-item list-group-item-action{% if app.request.get('_route') == 'app_personal_area_history' %} active{% else %} bg-light{% endif %}">История статей</a>
+                <a href="{{ path('app_personal_area_subscribe') }}" class="list-group-item list-group-item-action{% if app.request.get('_route') == 'app_personal_area_subscribe' %} active{% else %} bg-light{% endif %}">Подписка</a>
+                <a href="{{ path('app_personal_area_profile') }}" class="list-group-item list-group-item-action{% if app.request.get('_route') == 'app_personal_area_profile' %} active{% else %} bg-light{% endif %}">Профиль</a>
+                {% if is_granted('ROLE_PRO') %}
+                    <a href="{{ path('app_personal_area_generator') }}" class="list-group-item list-group-item-action{% if app.request.get('_route') == 'app_personal_area_generator' %} active{% else %} bg-light{% endif %}">Модули генератора</a>
+                {% endif %}
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            {% include 'partial/exit.html.twig' %}
+            <div class="container-fluid">
+                {% include 'partial/flash.html.twig' %}
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

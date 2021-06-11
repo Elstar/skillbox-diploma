@@ -45,11 +45,6 @@ class User implements UserInterface
     private $firstName;
 
     /**
-     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user")
-     */
-    private $apiTokens;
-
-    /**
      * @ORM\Column(type="integer", nullable=false, options={"default": 0, "unsigned": true})
      */
     private $emailConfirm;
@@ -59,9 +54,13 @@ class User implements UserInterface
      */
     private $emailConfirmHash;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ApiToken::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $apiToken;
+
     public function __construct()
     {
-        $this->apiTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,8 +96,9 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+
         $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_FREE';
 
         return array_unique($roles);
     }
@@ -157,36 +157,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|ApiToken[]
-     */
-    public function getApiTokens(): Collection
-    {
-        return $this->apiTokens;
-    }
-
-    public function addApiToken(ApiToken $apiToken): self
-    {
-        if (!$this->apiTokens->contains($apiToken)) {
-            $this->apiTokens[] = $apiToken;
-            $apiToken->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeApiToken(ApiToken $apiToken): self
-    {
-        if ($this->apiTokens->removeElement($apiToken)) {
-            // set the owning side to null (unless already changed)
-            if ($apiToken->getUser() === $this) {
-                $apiToken->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getEmailConfirm(): ?int
     {
         return $this->emailConfirm;
@@ -207,6 +177,23 @@ class User implements UserInterface
     public function setEmailConfirmHash(?string $emailConfirmHash): self
     {
         $this->emailConfirmHash = $emailConfirmHash;
+
+        return $this;
+    }
+
+    public function getApiToken(): ?ApiToken
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(ApiToken $apiToken): self
+    {
+        // set the owning side of the relation if necessary
+        if ($apiToken->getUser() !== $this) {
+            $apiToken->setUser($this);
+        }
+
+        $this->apiToken = $apiToken;
 
         return $this;
     }

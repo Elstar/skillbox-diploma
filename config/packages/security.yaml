@@ -32,6 +32,12 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
+    role_hierarchy:
+        ROLE_ADVANCED_GENERATOR_FACILITY: [ROLE_BASE_GENERATOR_FACILITY]
+        ROLE_ONE_MORE_ARTICLE: [ROLE_ONE_ARTICLE, ROLE_FIVE_ARTICLE]
+        ROLE_FREE: [ ROLE_ONE_ARTICLE, ROLE_BASE_GENERATOR_FACILITY]
+        ROLE_PLUS: [ ROLE_FIVE_ARTICLE, ROLE_ADVANCED_GENERATOR_FACILITY]
+        ROLE_PRO: [ ROLE_ONE_MORE_ARTICLE, ROLE_ADVANCED_GENERATOR_FACILITY, ROLE_OWN_MODULES]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

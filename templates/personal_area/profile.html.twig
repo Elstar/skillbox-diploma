@@ -1,0 +1,45 @@
+{% extends 'auth_base.html.twig' %}
+
+{% block title %}
+    BlaBlaArticle - Профиль
+{% endblock %}
+
+{% block body %}
+    <h1 class="mt-4">Профиль</h1>
+    <div class="row">
+
+        <div class="col-xl-6">
+            {% if success %}
+                <div class="alert alert-success" role="alert">
+                    {% trans %}Profile changed successfully{% endtrans %}
+                </div>
+            {% endif %}
+            <div class="card my-4">
+                <div class="card-body">
+                    <p>Ваш API токен: {{ app.user.apiToken.token }}</p>
+                    <a href="{{ path('app_personal_area_profile_get_new_token') }}" class="btn btn-outline-primary">Создать новый</a>
+                </div>
+            </div>
+
+            {{ form_start(editProfileForm) }}
+                <div class="form-label-group">
+                    {{ form_widget(editProfileForm.firstName, {'attr': {'value': app.user.firstName}}) }}
+                    {{ form_label(editProfileForm.firstName) }}
+                </div>
+                <div class="form-label-group">
+                    {{ form_widget(editProfileForm.email, {'attr': {'value': app.user.email}}) }}
+                    {{ form_label(editProfileForm.email) }}
+                </div>
+                <div class="form-label-group">
+                    {{ form_widget(editProfileForm.plainPassword.children['first']) }}
+                    {{ form_label(editProfileForm.plainPassword.children['first']) }}
+                </div>
+                <div class="form-label-group">
+                    {{ form_widget(editProfileForm.plainPassword.children['second']) }}
+                    {{ form_label(editProfileForm.plainPassword.children['second']) }}
+                </div>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">{% trans %}Edit{% endtrans %}</button>
+            {{ form_end(editProfileForm) }}
+        </div>
+    </div>
+{% endblock %}

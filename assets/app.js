@@ -11,5 +11,6 @@ import './styles/app.css';
 // start the Stimulus application
 require('bootstrap');
 require('jquery.easing');
+require('jquery.cookie');
 require('./scripts');
 
